@@ -1,0 +1,132 @@
+[
+  {
+    "name": "pastured eggs",
+    "company": "Sunrise Ridge",
+    "type": "product",
+    "productCategory": "eggs",
+    "experience": false,
+    "shortDescription": "1 dozen pastured eggs from our flock of 25 laying hens.",
+    "description": "1 dozen pastured eggs from our flock of 25 laying hens. Hens rotate on our pastured. Pastured eggs have been shown to possess 3x more nutrients than conventional store bought chicken eggs.",
+    "featured": false,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 9,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  },
+  {
+    "name": "pastured eggs CSA",
+    "company": "Sunrise Ridge",
+    "type": "product",
+    "productCategory": "eggs",
+    "experience": false,
+    "shortDescription": "1 dozen pastured eggs from our flock of 25 laying hens every week for 12 week period.",
+    "description": "1 dozen pastured eggs from our flock of 25 laying hens every week for 12 week period. Hens our rotated to different parts of the pasture everyt 2 weeks. Pastured eggs have been shown to posses 3x more nutrients than conventional store bought chicken eggs. Only 8 CSA subscriptions available at a time",
+    "featured": true,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/162712/egg-white-food-protein-162712.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 105,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  },
+  {
+    "name": "goat milk",
+    "company": "Sunrise Ridge",
+    "type": "product",
+    "productCategory": "dairy",
+    "experience": false,
+    "shortDescription": "Low temp pasteurized goats milk. Half gallon. Plain or chocolate available",
+    "description": "Low temp pasteurized goats milk. Half gallon.",
+    "featured": false,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/7282733/pexels-photo-7282733.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 7,
+    "clerkId": "clerkId",
+    "options": {
+      "create": [
+        { "name": "plain", "priceChange": 0, "farmId": "plain-g-milk" },
+        { "name": "chocolate", "priceChange": 2, "farmId": "chocolate-g-milk" }
+      ]
+    }
+  },
+  {
+    "name": "goat cheese",
+    "company": "Sunrise Ridge",
+    "type": "product",
+    "productCategory": "dairy",
+    "experience": false,
+    "shortDescription": "6oz goat cheese made on our farm.",
+    "description": "6oz goat cheese made on our farm. Plain flavor or spiced available for pickup.",
+    "featured": true,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/29111011/pexels-photo-29111011/free-photo-of-basket-of-brazilian-cheese-bread-pao-de-queijo.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 6,
+    "clerkId": "clerkId",
+    "options": {
+      "create": [
+        { "name": "plain", "priceChange": 0, "farmId": "pl-g-cheese" },
+        { "name": "spiced", "priceChange": 2, "farmId": "spiced-g-cheese" }
+      ]
+    }
+  },
+  {
+    "name": "bouquet",
+    "company": "Sunrise Ridge",
+    "type": "product",
+    "productCategory": "flowers",
+    "experience": false,
+    "shortDescription": "Cut to order bouquets using seasonal blooms grown on our farm.",
+    "description": "Cut to order bouquets using seasonal blooms grown on our farm. Bouquet styles vary on growing season. Online orders placed before 2:30pm will be cut same day and available for pickup by 10am next day unless prior arrangements are made with the farm. (Leave a comment on you order to arrange for different date cut / pickup).",
+    "featured": false,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/6638701/pexels-photo-6638701.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "price": 35,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  },
+  {
+    "name": "bouquet CSA",
+    "company": "Sunrise Ridge",
+    "type": "subscription",
+    "productCategory": "flowers",
+    "experience": false,
+    "shortDescription": "12 week subscription to fresh bouquets. Flowers grown on out farm. Cut same day as scheduled pick-up.",
+    "description": "12 week subscription to fresh bouquets prepared weekly for pickup at our farm. Bouquets ready by 10am Friday mornings. Cut same day.",
+    "featured": true,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/6638701/pexels-photo-6638701.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 360,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  },
+  {
+    "name": "flower pressing workshop",
+    "company": "Sunrise Ridge",
+    "type": "appointmentRequiredTicket",
+    "productCategory": "flowers",
+    "experience": true,
+    "shortDescription": "Admission for a 3 hour private flower pressing workshop with 30 minute farm tour.",
+    "description": "Admission for a 3 hour private flower pressing workshop with 30 minute farm tour. Use dried flowers from our farm to create a beautiful window ornament. Call our office after booking to schedule your private event time",
+    "featured": true,
+    "siteSpecial": false,
+    "image": "https://images.pexels.com/photos/11164415/pexels-photo-11164415.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 250,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  },
+  {
+    "name": "sunflower maze tour",
+    "company": "Sussex County Sunflower Tours LLC",
+    "type": "ticket",
+    "productCategory": "flowers",
+    "experience": true,
+    "shortDescription": "1 admission ticket to the best sunflower maze in Sussex County, New Jersey. Use your ticket any day from September 15th - November 5th 2024",
+    "description": "Admission for 1 to the best sunflower maze in Sussex County, New Jersey. Admissions sold through our site in partnership with our neighbor Sussex County Flower Tours. Sunflower maze is open daily in 2024 from September 15th - November 5th. Come any day were open to use your admission. No appointment necessary.",
+    "featured": false,
+    "siteSpecial": true,
+    "image": "https://images.pexels.com/photos/29112434/pexels-photo-29112434/free-photo-of-sunflowers-blooming-under-a-clear-blue-sky.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "price": 16,
+    "clerkId": "clerkId",
+    "options": { "create": [] }
+  }
+]
