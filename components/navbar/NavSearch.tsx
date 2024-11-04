@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 function NavSearch() {
   // access search params using hook
   const searchParams = useSearchParams();
+  const getSearchParams = searchParams.get("search");
   const { replace } = useRouter();
   const [search, setSearch] = useState(
     searchParams.get("search")?.toString() || ""
@@ -16,6 +17,7 @@ function NavSearch() {
   // useDebouncedCallback. expects 2 arguments. 2nd is the amount of delay. first is what we are going to delay getting the value of
   const handleSearch = useDebouncedCallback((value: string) => {
     // new URLSearchParams is out of the box functionality.
+    
     const params = new URLSearchParams(searchParams);
     if (value) {
       params.set("search", value);
@@ -30,7 +32,8 @@ function NavSearch() {
     if (!searchParams.get("search")) {
       setSearch("");
     }
-  }, [searchParams.get("search")]);
+  }, [getSearchParams, searchParams]);
+  // remove searchParams from dependency array in future. Only want use effect to run in the 'search' search param is updated.
   return (
     <Input
       type="search"

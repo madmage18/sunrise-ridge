@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import FeaturedProducts from "@/components/home/FeaturedProducts";
 import Hero from "@/components/home/Hero";
 import { Suspense } from "react";

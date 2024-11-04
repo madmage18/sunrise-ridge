@@ -10,7 +10,6 @@ import hero1 from "@/public/images/hero-1.jpg";
 import hero2 from "@/public/images/hero-2.jpg";
 import hero3 from "@/public/images/hero-3.jpg";
 import hero4 from "@/public/images/hero-4.jpg";
-import Image from "next/image";
 import { Card } from "../ui/card";
 import { CardContent } from "../ui/card";
 

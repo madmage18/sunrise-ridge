@@ -14,10 +14,11 @@ function AboutPage() {
       </p>
       <p className="mt-6 text-lg tracking-wide leading-8 max-w-2xl mx-auto text-muted-foreground">
         Our flower farm brings joy to our community and contributes to New
-        Jersey's 'Garden State' heritage.
+        Jersey&apos;s &apos;Garden State&apos; heritage.
       </p>
       <p className="mt-6 text-lg tracking-wide leading-8 max-w-2xl mx-auto text-muted-foreground">
-        Check out our full-length feature in Jersey Digest Magazine - Summer 2022 Edition.
+        Check out our full-length feature in Jersey Digest Magazine - Summer
+        2022 Edition.
       </p>
       {/* Insert Photo with link to the magazine here */}
       <p className="mt-6 text-lg tracking-wide leading-8 max-w-2xl mx-auto font-bold">

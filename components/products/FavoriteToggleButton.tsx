@@ -6,6 +6,7 @@ export default function FavoriteToggleButton({
 }: {
   productId: string;
 }) {
+  console.log(productId);
   return (
     <Button className='p-2 cursor-pointer' size='icon' variant='outline'>
       <FaHeart />
