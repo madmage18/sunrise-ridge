@@ -1,3 +1,5 @@
+In progress development of eCommerce Next.js web app for a Sunrise Ridge farm shop.
+
 ## Getting Started
 
 First, run the development server:
