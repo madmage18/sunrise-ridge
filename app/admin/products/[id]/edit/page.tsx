@@ -4,7 +4,6 @@ import {
   updateProductImageAction,
 } from "@/utils/actions";
 import FormContainer from "@/components/form/FormContainer";
-import FormInput from "@/components/form/FormInput";
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 import TextInput from "@/components/form/TextInput";
 import SelectInput from "@/components/form/SelectInput";
@@ -12,7 +11,7 @@ import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { SubmitButton } from "@/components/form/Buttons";
 import CheckboxInput from "@/components/form/CheckboxInput";
-import ImageInput from "@/components/form/ImageInput";
+
 async function EditProductPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const product = await fetchAdminProductDetails(id);
@@ -58,7 +57,7 @@ async function EditProductPage({ params }: { params: { id: string } }) {
               defaultValue={company}
             />
 
-            <PriceInput />
+            <PriceInput defaultValue={price} />
             {/* <ImageInput /> */}
           </div>
           <TextAreaInput

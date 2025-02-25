@@ -4,9 +4,7 @@ import { Label } from "../ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -27,7 +25,6 @@ type SelectInputProps = {
 function SelectInput({
   label,
   name,
-  type,
   defaultValue,
   item1,
   item2,

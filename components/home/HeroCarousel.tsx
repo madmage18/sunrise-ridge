@@ -12,7 +12,7 @@ import hero3 from "@/public/images/hero-3.jpg";
 import hero4 from "@/public/images/hero-4.jpg";
 import { Card } from "../ui/card";
 import { CardContent } from "../ui/card";
-import Image from 'next/image';
+import Image from "next/image";
 
 const carouselImages = [hero1, hero2, hero3, hero4];
 export default function HeroCarousel() {
@@ -26,11 +26,11 @@ export default function HeroCarousel() {
                 <Card>
                   <CardContent className="p-2">
                     <p>test-content-{index}</p>
-                    {/* Issue with my image. Temporarily commenting this out. <Image
+                    <Image
                       src={image}
                       alt="hero"
                       className="w-full h-[24rem] rounded-md object-cover"
-                    /> */}
+                    />
                   </CardContent>
                 </Card>
               </CarouselItem>

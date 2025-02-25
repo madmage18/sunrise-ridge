@@ -1,6 +1,5 @@
 import TextInput from "@/components/form/TextInput";
 import SelectInput from "@/components/form/SelectInput";
-import { Label } from "@/components/ui/label";
 import { SubmitButton } from "@/components/form/Buttons";
 import FormContainer from "@/components/form/FormContainer";
 import { createProductAction } from "@/utils/actions";
@@ -9,13 +8,6 @@ import PriceInput from "@/components/form/PriceInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { faker } from "@faker-js/faker";
 import CheckboxInput from "@/components/form/CheckboxInput";
-
-// function moved to /utils/actions.ts. Now importing
-// const createProductAction = async (formData: FormData) => {
-//   "use server";
-//   const name = formData.get("name") as string;
-//   console.log(name);
-// };
 
 function CreateProduct() {
   const name = faker.commerce.productName();
