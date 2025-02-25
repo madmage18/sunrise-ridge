@@ -1,4 +1,3 @@
-
 type NavLink = {
   href: string;
   label: string;
@@ -11,4 +10,11 @@ export const links: NavLink[] = [
   { href: "/favorites", label: "favorites" },
   { href: "/cart", label: "cart" },
   { href: "/orders", label: "orders" },
+  { href: "/admin/sales", label: "Admin Dashboard" },
+];
+
+export const adminLinks: NavLink[] = [
+  { href: "/admin/sales", label: "Sales" },
+  { href: "/admin/products", label: "shop products" },
+  { href: "/admin/products/create", label: "create product" },
 ];

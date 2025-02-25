@@ -12,6 +12,7 @@ import hero3 from "@/public/images/hero-3.jpg";
 import hero4 from "@/public/images/hero-4.jpg";
 import { Card } from "../ui/card";
 import { CardContent } from "../ui/card";
+import Image from 'next/image';
 
 const carouselImages = [hero1, hero2, hero3, hero4];
 export default function HeroCarousel() {
