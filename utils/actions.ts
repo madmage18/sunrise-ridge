@@ -124,7 +124,9 @@ export const deleteProductAction = async (prevState: { productId: string }) => {
     await deleteImage(product.image);
     revalidatePath("/admin/products");
     return { message: "product removed" };
-  } catch (error) {}
+  } catch (error) {
+    return renderError(error);
+  }
 };
 
 export const fetchAdminProductDetails = async (productId: string) => {
