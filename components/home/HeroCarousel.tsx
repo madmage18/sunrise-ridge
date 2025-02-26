@@ -25,7 +25,7 @@ export default function HeroCarousel() {
               <CarouselItem key={index}>
                 <Card>
                   <CardContent className="p-2">
-                    <p>test-content-{index}</p>
+                    {/* <p>test-content-{index}</p> */}
                     <Image
                       src={image}
                       alt="hero"
