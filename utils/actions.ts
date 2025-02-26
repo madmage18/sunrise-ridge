@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache";
 import { productSchema } from "./schemas";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { validateWithZodSchema, imageSchema } from "./schemas";
-import { File } from "buffer";
 import { uploadImage, deleteImage } from "./supabase";
 
 export const fetchFeaturedProducts = async () => {
