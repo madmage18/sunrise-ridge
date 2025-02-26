@@ -11,7 +11,7 @@ import {
 
 type SelectInputProps = {
   name: string;
-  type: string;
+  // type: string;
   label?: string;
   defaultValue?: string;
   item1: string;
@@ -25,6 +25,7 @@ type SelectInputProps = {
 function SelectInput({
   label,
   name,
+  // type,
   defaultValue,
   item1,
   item2,

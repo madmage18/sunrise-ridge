@@ -72,7 +72,7 @@ function CreateProduct() {
           {/* <h1 className="text-2xl font-semibold mb-2 capitalize mt-10">product metadata</h1> */}
           <div className="grid gap-4 md:grid-cols-2 my-4">
             <SelectInput
-              type="select"
+              // type="select"
               name="type"
               label="Product Type"
               defaultValue="product"
@@ -82,7 +82,7 @@ function CreateProduct() {
               item4="ticket"
             />
             <SelectInput
-              type="select"
+              // type="select"
               name="productCategory"
               label="Product Category"
               defaultValue="eggs"
