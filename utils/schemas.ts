@@ -25,7 +25,7 @@ export const productSchema = z.object({
   price: z.coerce.number().int().min(0, {
     message: "Price must be a positive number.",
   }),
-  //   image: "/images/vercel.svg",
+  //image: z.string(),
   description: z.string().refine(
     (description) => {
       const wordCount = description.split(" ").length;

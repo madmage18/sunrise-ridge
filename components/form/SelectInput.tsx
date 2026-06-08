@@ -34,7 +34,7 @@ function SelectInput({
   item5,
   item6,
 }: SelectInputProps) {
-  console.log(`defaultValue: ${defaultValue}`);
+ // console.log(`defaultValue: ${defaultValue}`);
 
   return (
     <div className="mb-2">

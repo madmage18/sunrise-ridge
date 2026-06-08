@@ -7,6 +7,7 @@ import { productSchema, reviewSchema } from "./schemas";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { validateWithZodSchema, imageSchema } from "./schemas";
 import { uploadImage, deleteImage } from "./supabase";
+import { Cart } from "@prisma/client";
 
 export const fetchFeaturedProducts = async () => {
   const products = await db.product.findMany({ where: { featured: true } });
@@ -25,7 +26,7 @@ export const fetchAllProducts = ({ search = "" }: { search: string }) => {
   const isValidCategory = validProductCategories.includes(
     search as ProductCategory
   );
-  // check if search value matches a value in the ProductCategory array
+  // check if search value matches a value in the ProductType array
   const isValidType = validProductTypes.includes(search as ProductType);
 
   // include all possible conditions for type safety
@@ -94,13 +95,13 @@ const getAuthUser = async () => {
 // additional check to protect page (& their data) that should only be accessible to admin users. (Additional to what is in middleware)
 const getAdminUser = async () => {
   const user = await getAuthUser();
-  console.log(`User.id: ${user.id}`);
+  // console.log(`User.id: ${user.id}`);
   if (user.id !== process.env.USER_ADMIN_ID) redirect("/");
   return user;
 };
 
 export const fetchAdminProducts = async () => {
-  console.log("fetchAdminProducts ran");
+  // console.log("fetchAdminProducts ran");
   await getAdminUser();
   const products = await db.product.findMany({
     orderBy: {
@@ -198,29 +199,36 @@ export const createProductAction = async (
 
   try {
     const rawData = Object.fromEntries(formData);
-    console.log(rawData);
+    // console.log('rawData', rawData);
     const file = formData.get("image") as File; // see if unkown can be removed
-
+    //console.log('file', file);
     // these are using helper functions which will throw toast error messages if validations do not pass.
     const validatedFields = validateWithZodSchema(productSchema, rawData);
-
+    //console.log('validatedFields', validatedFields);
     const validatedFile = validateWithZodSchema(imageSchema, { image: file }); // test by attempt larger than 1MB image upload
-    console.log(validatedFile);
+    // console.log('validatedFile', validatedFile);
+    // console.log(`${validatedFile}: `);
+    //fullPath should be the publicURL returned for the image after uploadImage runs!
     const fullPath = await uploadImage(validatedFile.image);
+    // console.log('fullPath', fullPath);
     // log the result to test
-    console.log(validatedFile);
+    // console.log(`${validatedFile}: `);
+    // console.log(validatedFile);
+    // console.log(`${fullPath}: `);
+    // console.log(fullPath);
 
     await db.product.create({
       data: {
         ...validatedFields,
         // test the image validation below
-        // image: "/vercel.svg",
+        //image: "/vercel.svg",
         image: fullPath,
         type: "product",
         productCategory: "eggs",
         clerkId: user.id,
       },
     });
+    // Old implementation... committing for record
     //  return { message: "product created" };
     // const name = formData.get('name') as string;
     // const company = formData.get('company') as string;
@@ -253,8 +261,8 @@ export const createProductAction = async (
     //     clerkId: user.id,
     //   },
     // });
-    // uncomment out below line to get toast for successful product creation
-    // return { message: "product created" };
+    // uncomment out below line to get toast for successful product creation instead of redirecting to admin products page.
+   // return { message: "product created" };
   } catch (error) {
     return renderError(error);
   }
@@ -314,7 +322,7 @@ export const toggleFavoriteAction = async (prevState: {
 
 export const fetchUserFavorites = async () => {
   const user = await getAuthUser();
-  console.log("Fetch user favorites running.");
+  // console.log("Fetch user favorites running.");
   const favorites = await db.favorite.findMany({
     where: {
       clerkId: user.id,
@@ -439,16 +447,267 @@ export const fetchCartItems = async () => {
   return cart?.numItemsInCart || 0;
 };
 
-const fetchProduct = async () => {};
+//check that there is product with that id in db.
+const fetchProduct = async (productId: string) => {
+  const product = await db.product.findUnique({
+    where: {
+      id: productId,
+    },
+  });
 
-export const fetchOrCreateCart = async () => {};
+  if (!product) {
+    throw new Error("Product not found");
+  }
+  return product;
+};
 
-const updateOrCreateCartItem = async () => {};
+const includeProductClause = {
+  cartItems: {
+    include: {
+      product: true,
+    },
+  },
+};
 
-export const updateCart = async () => {};
+export const fetchOrCreateCart = async ({
+  userId,
+  errorOnFailure = false,
+}: {
+  userId: string;
+  errorOnFailure?: boolean;
+}) => {
+  // check for cart in db. if none create one.
+  let cart = await db.cart.findFirst({
+    where: { clerkId: userId },
+    include: includeProductClause,
+  });
 
-export const addToCartAction = async () => {};
+  if (!cart && errorOnFailure) {
+    throw new Error("Cart not found");
+  }
 
-export const removeCartItemAction = async () => {};
+  if (!cart) {
+    cart = await db.cart.create({
+      data: {
+        clerkId: userId,
+      },
+      include: includeProductClause,
+    });
+  }
+  return cart;
+};
 
-export const updateCartItemAction = async () => {};
+const updateOrCreateCartItem = async ({
+  productId,
+  cartId,
+  amount,
+}: {
+  productId: string;
+  cartId: string;
+  amount: number;
+}) => {
+  let cartItem = await db.cartItem.findFirst({
+    where: {
+      productId,
+      cartId,
+    },
+  });
+
+  if (cartItem) {
+    cartItem = await db.cartItem.update({
+      where: {
+        id: cartItem.id,
+      },
+      data: {
+        amount: cartItem.amount + amount,
+      },
+    });
+  } else {
+    cartItem = await db.cartItem.create({
+      data: { amount, productId, cartId },
+    });
+  }
+};
+
+export const updateCart = async (cart: Cart) => {
+  const cartItems = await db.cartItem.findMany({
+    where: {
+      cartId: cart.id,
+    },
+    include: {
+      product: true, // Include the related product
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  let numItemsInCart = 0;
+  let cartTotal = 0;
+
+  for (const item of cartItems) {
+    numItemsInCart += item.amount;
+    cartTotal += item.amount * item.product.price;
+  }
+  const tax = cart.taxRate * cartTotal;
+  const shipping = cartTotal ? cart.shipping : 0;
+  const orderTotal = cartTotal + tax + shipping;
+
+  const currentCart = await db.cart.update({
+    where: {
+      id: cart.id,
+    },
+    data: {
+      numItemsInCart,
+      cartTotal,
+      tax,
+      orderTotal,
+    },
+    include: includeProductClause,
+  });
+  return { currentCart, cartItems };
+};
+
+export const addToCartAction = async (prevState: any, formData: FormData) => {
+  const user = await getAuthUser(); // usein condition. Only run if there's a user
+
+  try {
+    // get productId and amount from the formData.
+    const productId = formData.get("productId") as string;
+    const amount = Number(formData.get("amount"));
+
+    //check for product with that id in db. return or throw error. Use helper fn
+    await fetchProduct(productId);
+    // fetch current cart instance or create one
+    const cart = await fetchOrCreateCart({ userId: user.id });
+    // after have cart instance, update/add cart items
+    await updateOrCreateCartItem({ productId, cartId: cart.id, amount });
+    await updateCart(cart);
+  } catch (error) {
+    return renderError(error);
+  }
+  //success, redirects to cart
+  redirect("/cart");
+};
+
+export const removeCartItemAction = async (
+  prevState: any,
+  formData: FormData
+) => {
+  const user = await getAuthUser();
+  try {
+    const cartItemId = formData.get("id") as string;
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    await db.cartItem.delete({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+    });
+
+    await updateCart(cart);
+    revalidatePath("/cart");
+    return { message: "Item removed from cart" };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const updateCartItemAction = async ({
+  amount,
+  cartItemId,
+}: {
+  amount: number;
+  cartItemId: string;
+}) => {
+  const user = await getAuthUser();
+
+  try {
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    await db.cartItem.update({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+      data: {
+        amount,
+      },
+    });
+    await updateCart(cart);
+    revalidatePath("/cart");
+    return { message: "cart updated" };
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const createOrderAction = async (prevState: any, formData: FormData) => {
+  const user = await getAuthUser();
+  // variables for checkout page redirect
+  let orderId: null | string = null;
+  let cartId: null | string = null;
+  try {
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    cartId = cart.id;
+    // delete prior orders with isPaid false. Then create new order with unpaid is false. (Only one isPaid false order maintained for the user.)
+    await db.order.deleteMany({
+      where: {
+        clerkId: user.id,
+        isPaid: false,
+      },
+    });
+
+    const order = await db.order.create({
+      data: {
+        clerkId: user.id,
+        products: cart.numItemsInCart,
+        orderTotal: cart.orderTotal,
+        tax: cart.tax,
+        shipping: cart.shipping,
+        email: user.emailAddresses[0].emailAddress,
+      },
+    });
+    orderId = order.id;
+  } catch (error) {
+    return renderError(error);
+  }
+  redirect(`/checkout?orderId=${orderId}&cartId=${cartId}`);
+};
+
+export const fetchUserOrders = async () => {
+  const user = await getAuthUser();
+  const orders = await db.order.findMany({
+    where: {
+      clerkId: user.id,
+      isPaid: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return orders;
+};
+
+// returns orders shown on admin sales page
+export const fetchAdminOrders = async () => {
+  const user = await getAdminUser();
+
+  const orders = await db.order.findMany({
+    where: {
+      isPaid: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  return orders;
+};
