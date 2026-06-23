@@ -23,7 +23,7 @@ async function ProductReviews({ productId }: { productId: string }) {
           };
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;
         })}
-        ;
+        
       </div>
     </div>
   );
